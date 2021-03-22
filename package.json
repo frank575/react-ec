@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "json-server": "json-server --watch __json-server__/db.json",
+    "json-server": "json-server --watch __json_server_mock__/db.json",
     "build": "vite build",
     "serve": "vite preview",
     "test": "jest"

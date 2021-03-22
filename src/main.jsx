@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom'
-import { App } from './ReduxApp2/App'
+import { App } from './Redux/Brave'
 import './main.css'
 
 ReactDOM.render(

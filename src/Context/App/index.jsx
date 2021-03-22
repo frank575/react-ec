@@ -61,6 +61,11 @@ const CounterCount = () => {
   return <span style={{ margin: '0 10px' }}>{count}</span>
 }
 
+const AAA = () => {
+  console.log('AAA')
+  return <div>AAA</div>
+}
+
 const Counter = () => {
   console.log('Counter')
   return (
@@ -69,6 +74,7 @@ const Counter = () => {
       <CounterMinusBtn />
       <CounterCount />
       <CounterIncreaseBtn />
+      <AAA />
     </div>
   )
 }

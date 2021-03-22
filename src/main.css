@@ -2,7 +2,7 @@ body {
   background: #1b1b1b;
 }
 
-*:not(button) {
+*:not(button, select, textarea, input, option) {
   box-sizing: border-box;
   color: #fff;
 }

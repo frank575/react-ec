@@ -1,4 +1,7 @@
-import { useMemo, createContext, useContext, useReducer } from "react";
+import { useMemo, useReducer } from "react";
+import { createContext, useContextSelector } from "use-context-selector";
+
+const context = createContext(null)
 
 const INCREASE = 'INCREASE'
 const MINUS = 'MINUS'
@@ -24,20 +27,8 @@ const counterReducer = (state , action) => {
   }
 }
 
-
-const Context = createContext(null)
-
-const CounterProvider = () => {
-  const [state, dispatch] = useReducer(counterReducer, initialState)
-  return (
-    <Context.Provider value={{ state, dispatch }}>
-      <Counter />
-    </Context.Provider>
-  )
-}
-
 const CounterMinusBtn = () => {
-  const { dispatch } = useContext(Context)
+  const dispatch = useContextSelector(context, e => e.dispatch)
   console.log('CounterMinusBtn')
   return useMemo(
     () => <button onClick={() => dispatch({ type: MINUS })}>-</button>,
@@ -46,7 +37,7 @@ const CounterMinusBtn = () => {
 }
 
 const CounterIncreaseBtn = () => {
-  const { dispatch } = useContext(Context)
+  const dispatch = useContextSelector(context, e => e.dispatch)
   console.log('CounterIncreaseBtn')
   return useMemo(
     () => <button onClick={() => dispatch({ type: INCREASE })}>+</button>,
@@ -55,16 +46,24 @@ const CounterIncreaseBtn = () => {
 }
 
 const CounterCount = () => {
-  const { state } = useContext(Context)
-  const { count } = state
+  const count = useContextSelector(context, e => e.state.count)
   console.log('CounterCount')
   return <span style={{ margin: '0 10px' }}>{count}</span>
 }
 
-const AAA = () => {
-  console.log('AAA')
-  return <div>AAA</div>
+const RandomText = () => {
+  return <h3>{Math.random()}</h3>
 }
+
+const CounterProvider = ({children}) => {
+  const [state, dispatch] = useReducer(counterReducer, initialState)
+  return (
+    <context.Provider value={{ state, dispatch }}>
+      {children}
+    </context.Provider>
+  )
+}
+
 
 const Counter = () => {
   console.log('Counter')
@@ -74,7 +73,7 @@ const Counter = () => {
       <CounterMinusBtn />
       <CounterCount />
       <CounterIncreaseBtn />
-      <AAA />
+      <RandomText />
     </div>
   )
 }
@@ -82,7 +81,9 @@ const Counter = () => {
 export const App = () => {
   return (
     <div className="App">
-      <CounterProvider />
+      <CounterProvider>
+        <Counter />
+      </CounterProvider>
     </div>
   )
 }

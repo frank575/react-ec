@@ -1,32 +1,6 @@
 import { Provider, useDispatch, useSelector } from 'react-redux'
-import { createStore } from 'redux'
 import { useMemo } from 'react'
-
-const INCREASE = 'INCREASE'
-const MINUS = 'MINUS'
-
-const initialState = {
-	count: 0,
-}
-
-const counterReducer = (state = initialState, action) => {
-	switch (action.type) {
-		case INCREASE: {
-			return {
-				count: state.count + 1,
-			}
-		}
-		case MINUS: {
-			return {
-				count: state.count - 1,
-			}
-		}
-		default:
-			return state
-	}
-}
-
-const store = createStore(counterReducer)
+import { CounterActions, store } from "@/store/counter";
 
 const CounterProvider = () => {
 	return (
@@ -40,7 +14,7 @@ const CounterMinusBtn = () => {
 	const dispatch = useDispatch()
 	console.log('CounterMinusBtn')
 	return useMemo(
-		() => <button onClick={() => dispatch({ type: MINUS })}>-</button>,
+		() => <button onClick={() => dispatch(CounterActions.minus())}>-</button>,
 		[],
 	)
 }
@@ -49,13 +23,13 @@ const CounterIncreaseBtn = () => {
 	const dispatch = useDispatch()
 	console.log('CounterIncreaseBtn')
 	return useMemo(
-		() => <button onClick={() => dispatch({ type: INCREASE })}>+</button>,
+		() => <button onClick={() => dispatch(CounterActions.increase())}>+</button>,
 		[],
 	)
 }
 
 const CounterCount = () => {
-	const count = useSelector(state => state.count)
+	const count = useSelector(state => state)
 	console.log('CounterCount')
 	return <span style={{ margin: '0 10px' }}>{count}</span>
 }

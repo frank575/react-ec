@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ReduxProvider } from "@/storeWithToolkit";
-import { BraveActions } from "@/storeWithToolkit/brave/brave.slice";
+import { BraveActions } from "@/storeWithToolkit/brave/braveAsyncThunk.slice";
 import { BraveHelper } from "@/storeWithToolkit/brave/helper";
 import { EBraveJob } from "@/enums/EBraveJob";
 

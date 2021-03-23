@@ -1,5 +1,4 @@
 import { BraveTypes } from "@/store/Brave/Brave.types";
-import { BraveActions } from "@/store/Brave/Brave.actions";
 
 const initialState = {
   list: [],

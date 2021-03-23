@@ -90,7 +90,7 @@ const BravePanel = () => {
 				))}
 			</select>
 			<button
-				onClick={() => dispatch(BraveActions.createSync(getBrave()))}
+				onClick={() => dispatch(BraveActions.createBraveSync(getBrave()))}
 			>
 				創建
 			</button>

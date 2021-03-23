@@ -11,7 +11,7 @@ export const BraveActions = {
 		}
 	},
 
-	createSync(brave) {
+	createBraveSync(brave) {
 		return async dispatch => {
 			try {
 				if (!brave.name) {

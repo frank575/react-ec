@@ -2,6 +2,7 @@ import { applyMiddleware, combineReducers, createStore } from 'redux'
 import { useDispatch as useReactReduxDispatch } from 'react-redux'
 import thunk from 'redux-thunk'
 import { useCallback } from 'react'
+import produce from "immer";
 
 // dispatch(increase())
 // dispatch(fetchCount())
@@ -25,19 +26,17 @@ const createReducer = (reducerName, initialState = null, actions = {}) => {
 	const newActions = Object.entries(actions).reduce((p, [k, fun]) => {
 		if (k.substr(-4) === 'Sync') {
 			p[k] = payload => async (dispatch, getState) => {
-				const rootState = getState()
-				const _payload = await fun(
-					{ state: rootState[reducerName], rootState },
+				const _payload = await produce(getState()[reducerName], draftState => fun(
+					{ state: draftState },
 					payload,
-				)
+				))
 				dispatch({ type: reducerName, payload: _payload })
 			}
 		} else {
 			p[k] = payload => (dispatch, getState) => {
-				const rootState = getState()
 				return dispatch({
 					type: reducerName,
-					payload: fun({ state: rootState[reducerName], rootState }, payload),
+					payload: produce(getState()[reducerName], draftState => fun({ state: draftState }, payload)),
 				})
 			}
 		}
@@ -50,14 +49,14 @@ const createReducer = (reducerName, initialState = null, actions = {}) => {
 	}
 }
 
-const counterReducer = createReducer('count', 0, {
+const counterReducer = createReducer('counter', 0, {
 	async increaseSync({ state }) {
-		const sum = await new Promise(res =>
+		await new Promise(res =>
 			setTimeout(() => {
-				res(10)
+				res()
 			}, 1000),
 		)
-		return state + sum
+		return state + 10
 	},
 	minus({ state }) {
 		return state - 1

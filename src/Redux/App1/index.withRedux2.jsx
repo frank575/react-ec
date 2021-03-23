@@ -29,7 +29,7 @@ const CounterIncreaseBtn = () => {
 }
 
 const CounterCount = () => {
-  const count = useSelector(state => state.count)
+  const count = useSelector(state => state.counter)
   console.log('CounterCount')
   return <span style={{ margin: '0 10px' }}>{count}</span>
 }

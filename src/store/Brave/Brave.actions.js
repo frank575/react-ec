@@ -4,7 +4,9 @@ import { BraveTypes } from '@/store/Brave/Brave.types'
 export const BraveActions = {
 	getListSync() {
 		return async dispatch => {
-			const list = await fetch('http://localhost:3000/brave').then(async res => await res.json())
+			const list = await fetch('http://localhost:3000/brave').then(
+				async res => await res.json(),
+			)
 			dispatch({ type: BraveTypes.SET_LIST, payload: list })
 		}
 	},
@@ -21,9 +23,9 @@ export const BraveActions = {
 				const { id } = await fetch('http://localhost:3000/brave', {
 					method: 'POST',
 					headers: {
-						"content-type": "application/json"
+						'content-type': 'application/json',
 					},
-					body: JSON.stringify(brave)
+					body: JSON.stringify(brave),
 				}).then(async res => await res.json())
 
 				dispatch({ type: BraveTypes.CREATE, payload: { ...brave, id } })
@@ -33,26 +35,27 @@ export const BraveActions = {
 		}
 	},
 
-	upgradeJob(state, brave = {}) {
-		const { list } = state
-		const newJob = BraveHelper.checkUpgradeJob(brave.job)
-		if (!newJob) {
-			alert('轉職已到極限')
-			return state
-		}
-		const equalsBraveId = e => e.id === brave.id
-		const braveIndex = list.findIndex(equalsBraveId)
-		if (braveIndex === -1) {
-			alert('無此用者')
-			return state
-		}
-		return {
-			...state,
-			list: [
-				...list.slice(0, braveIndex),
-				{ ...brave, job: newJob },
-				...list.slice(braveIndex + 1, list.length),
-			],
+	upgradeJob(brave) {
+		return (dispatch, getState) => {
+			const state = getState().brave
+			const { list } = state
+			const newJob = BraveHelper.checkUpgradeJob(brave.job)
+			if (!newJob) {
+				return alert('轉職已到極限')
+			}
+			const equalsBraveId = e => e.id === brave.id
+			const braveIndex = list.findIndex(equalsBraveId)
+			if (braveIndex === -1) {
+				return alert('無此用者')
+			}
+			dispatch({
+				type: BraveTypes.TRANSFER,
+				payload: [
+					...list.slice(0, braveIndex),
+					{ ...brave, job: newJob },
+					...list.slice(braveIndex + 1, list.length),
+				],
+			})
 		}
 	},
 }

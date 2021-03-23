@@ -17,7 +17,10 @@ export const BraveReducers = (state = initialState, { type, payload }) => {
         list: [...state.list, payload],
       }
     case BraveTypes.TRANSFER:
-      return BraveActions.upgradeJob(state, payload)
+      return {
+        ...state,
+        list: payload,
+      }
     default:
       return state
   }

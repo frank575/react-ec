@@ -36,7 +36,7 @@ const BraveList = () => {
 						</span>
 					</div>
 					<div>
-						<button onClick={() => dispatch({ type: BraveTypes.TRANSFER, payload: e })}>
+						<button onClick={() => dispatch(BraveActions.upgradeJob(e))}>
 							升階
 						</button>
 						{/*<button onClick={() => dispatch({ type: TRANSFER, payload: e })}>*/}

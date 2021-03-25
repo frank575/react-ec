@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom'
-import { App } from './Redux/App1/index.withRedux2'
+import { App } from './Redux/App1/index.full'
 import './main.css'
 
 ReactDOM.render(
